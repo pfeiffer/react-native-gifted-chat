@@ -44,6 +44,12 @@ export default class InputToolbar extends React.Component {
     });
   }
 
+  _onAccessoryLayout = ({ nativeEvent: { layout: { height } } }) => {
+    if (this.props.onAccessoryHeightChanged) {
+      this.props.onAccessoryHeightChanged(height);
+    }
+  }
+
   renderActions() {
     if (this.props.renderActions) {
       return this.props.renderActions(this.props);
@@ -71,7 +77,7 @@ export default class InputToolbar extends React.Component {
   renderAccessory() {
     if (this.props.renderAccessory) {
       return (
-        <View style={[styles.accessory, this.props.accessoryStyle]}>
+        <View style={[styles.accessory, this.props.accessoryStyle]} onLayout={this._onAccessoryLayout}>
           {this.props.renderAccessory(this.props)}
         </View>
       );
@@ -107,9 +113,6 @@ const styles = StyleSheet.create({
   primary: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-  },
-  accessory: {
-    height: 44,
   },
 });
 
